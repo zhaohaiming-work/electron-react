@@ -2,18 +2,85 @@
   "name": "react-start-kit",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "clean": "rimraf dist",
+    "clean-package":"rimraf desk-package",
     "compile": "node build/script/compile",
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
     "start": "cross-env NODE_ENV=development node build/script/start",
+    "ele:start": "cross-env NODE_ENV=development electron .",
+    "win:build": "npm run clean-package && npm run build && electron-builder --win",
+    "mac:build": "npm run clean-package && npm run build && electron-builder --mac",
     "lint": "eslint --ext .js src/",
     "lint:fix": "eslint --fix --ext .js --ext .jsx src/"
   },
   "keywords": [],
   "author": "haiming.zhao",
   "license": "ISC",
+  "build": {
+    "asar": {
+      "smartUnpack": true
+    },
+    "productName": "桌面应用测试版本",
+    "appId": "evaluate-platform",
+    "copyright": " ",
+    "directories": {
+      "output": "desk-package"
+    },
+    "files": [
+      "dist/**/*",
+      "./main.js",
+      "./project.config.js"
+    ],
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "http://ess.caicchina.com/desktopapp"
+      }
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "artifactName": "package${version}.${ext}"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "ia32",
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "package${version}.${ext}"
+    },
+    "linux": {
+      "icon": "public/icons",
+      "artifactName": "caic_setup_${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "runAfterFinish": false
+    }
+  },
   "dependencies": {
     "antd": "^4.1.0",
     "axios": "^0.19.0",
@@ -63,6 +130,8 @@
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-standard": "^4.0.0",
+    "electron": "^8.2.2",
+    "electron-builder": "^22.5.1",
     "express": "^4.14.0",
     "figures": "^2.0.0",
     "file-loader": "^4.0.0",
