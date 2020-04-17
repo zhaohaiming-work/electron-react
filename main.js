@@ -3,7 +3,7 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
 const config = require('./project.config')
-const { port, env, outDir } = config
+const { port, env, outDir, ip } = config
 // 保持window对象的全局引用,避免JavaScript对象被垃圾回收时,窗口被自动关闭.
 let mainWindow
 function createWindow () {
@@ -14,7 +14,7 @@ function createWindow () {
   })
   // 加载应用-----  electron-quick-start中默认的加载入口
   if (env) {
-    mainWindow.loadURL(`http://${require('ip').address()}:${port}/`)
+    mainWindow.loadURL(`http://${ip.address()}:${port}/`)
   } else {
     mainWindow.loadURL(url.format({
       pathname: path.join(__dirname, './' + outDir + '/index.html'),

@@ -1,4 +1,4 @@
-// const ip = require('ip')
+const ip = require('ip')
 const NODE_ENV = process.env.NODE_ENV
 const port = '6787'
 const environment = process.argv[2]
@@ -18,14 +18,14 @@ switch (environment) {
     proxyHost = hostConfig.test
 }
 module.exports = {
-  // ip,
+  ip,
   port,
   env: NODE_ENV,
   basePath: __dirname,
   srcDir: 'src',
   main: 'main',
   outDir: 'dist',
-  publicPath: NODE_ENV === 'development' ? `http://${require('ip').address()}:${port}/` : './',
+  publicPath: NODE_ENV === 'development' ? `http://${ip.address()}:${port}/` : './',
   sourcemaps:NODE_ENV === 'development',
   externals: {},
   globals: {},
